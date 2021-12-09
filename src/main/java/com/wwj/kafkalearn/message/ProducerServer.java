@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @Author: Mr.Thomas
@@ -50,33 +52,31 @@ public class ProducerServer {
      * @param topic
      * @param key
      * @param msg
-     * @param flag  true:同步发送   false：异步发送
+     * @param isASyncSend true:同步发送   false：异步发送
      */
-    public void sendMsg(String topic, String key, String msg, Boolean flag) {
+    public void sendMsg(String topic, String key, String msg, Boolean isASyncSend) {
         ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, msg);
-        if (flag) {
-            //flag为true， 同步发送，会有一个Future<RecordMetadata>对象，不报异常，调用get()方法会得到topic、partition、offset
-            /*Future<RecordMetadata> send = */
-            kafkaProducer.send(record);
-            /*try {
-                RecordMetadata metadata = send.get();
-                String topic1 = metadata.topic();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }*/
-        } else {
-            //异步发送
-            kafkaProducer.send(record, new Callback() {
-                @Override
-                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                    if (null == e) {
-                        log.info("topic:{},partition:{},offset:{}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
+        try {
+            if (isASyncSend) {
+                //flag为true， 同步发送，会有一个Future<RecordMetadata>对象，不报异常，调用get()方法会得到topic、partition、offset
+                Future<RecordMetadata> future = kafkaProducer.send(record);
+                log.info("SUCCESS flag:{},topic:{},partition:{},msg:{}", isASyncSend, record.topic(), record.partition(), record.value());
+            } else {
+                //异步发送
+                kafkaProducer.send(record, new Callback() {
+                    @Override
+                    public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                        if (e != null) {
+                            log.error("FAIL flag:{},topic:{},partition:{},msg:{},errorMsg:{}", isASyncSend, record.topic(), record.partition(), record.value(), e.getMessage());
+                        } else {
+                            log.info("SUCCESS flag:{},topic:{},partition:{},msg:{}", isASyncSend, record.topic(), record.partition(), record.value());
+                        }
                     }
-                }
-            });
+                });
+            }
+            kafkaProducer.close();
+        } catch (Exception e) {
+            log.error("FAIL flag:{},topic:{},partition:{},msg:{}", isASyncSend, record.topic(), record.partition(), record.value());
         }
-        kafkaProducer.close();
     }
 }

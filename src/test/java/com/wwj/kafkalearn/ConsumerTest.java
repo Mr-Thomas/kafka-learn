@@ -14,6 +14,7 @@ import java.time.Duration;
 /**
  * @Author: Mr.Thomas
  * @Date: 2020/10/22 002214:51
+ * 主动拉取消息
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {KafkaLearnApplication.class})

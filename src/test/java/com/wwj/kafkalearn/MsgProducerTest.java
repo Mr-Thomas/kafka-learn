@@ -1,6 +1,6 @@
 package com.wwj.kafkalearn;
 
-import com.wwj.kafkalearn.message.ProducerServer;
+import com.wwj.kafkalearn.message.MsgProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,21 +9,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @Author: Mr.Thomas
- * @Date: 2020/10/22 002214:18
+ * @author ：Administrator
+ * @description：TODO
+ * @date ：2021/12/9 14:57
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {KafkaLearnApplication.class})
 @Slf4j
-public class ProducerTest {
-
+public class MsgProducerTest {
     @Autowired
-    private ProducerServer producerServer;
+    private MsgProducer msgProducer;
 
     @Test
     public void sendMsgTest() {
         try {
-            producerServer.sendMsg("topic", "kafka-demo", "hello,kafka...Hi...", false);
+            msgProducer.sendMessageToKafkaServer("message-模式", "topic", false, "key");
         } catch (Exception e) {
             e.printStackTrace();
         }
