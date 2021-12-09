@@ -60,7 +60,7 @@ public class ConsumerServer {
         //设置值序列化器
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         //设置集群地址
-        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092,127.0.0.1:9093");
         //消费组，默认为空，如果设置为空则会抛出异常【写入一次消息，可支持任意多应用读取这个消息，使得每个应用都能读取到全量消息，应用需要有不同的消费组】
         configs.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 

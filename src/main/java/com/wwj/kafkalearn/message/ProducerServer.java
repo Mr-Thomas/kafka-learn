@@ -33,7 +33,7 @@ public class ProducerServer {
         //设置重试次数
         properties.put(ProducerConfig.RETRIES_CONFIG, 10);
         //设置集群地址
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092,127.0.0.1:9093");
         //设置自定义拦截器
 //        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, PrefixProducerInterceptor.class.getName());
 //        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_DOC, "消息加前缀");
