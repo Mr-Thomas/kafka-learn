@@ -33,8 +33,8 @@ public class ProducerServer {
         //设置集群地址
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         //设置自定义拦截器
-        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, PrefixProducerInterceptor.class.getName());
-        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_DOC, "消息加前缀");
+//        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, PrefixProducerInterceptor.class.getName());
+//        properties.put(ProducerConfig.INTERCEPTOR_CLASSES_DOC, "消息加前缀");
 
         //ack=0,生产者在成功写入消息之前不会等待任何来自服务器的相应，如果出现问题生产者是感知不到的，消息就丢了。不过因为生产者不需要等待服务器相应，所以它可以以网络能够支持的最大速度发送消息，从而达到很高的吞吐量；
         //ack=1,默认值为1，只要master节点收到消息，生产者就会收到一个来自服务器的成功相应。如果消息无法达到master节点(master节点崩溃，新的master节点还没有被选举出来),生产者会收到一个错误的相应，为了避免数据丢失，生产者会重新发送消息。但是还是可能会导致数据丢失，如果收到写成功通知，此时master节点还没来得及同步数据到follower节点，master节点崩溃，就会导致数据丢失；

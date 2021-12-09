@@ -71,7 +71,7 @@ public class ConsumerServer {
         //false，手动提交位移【同步提交：kafkaConsumer.commitAsync()；异步提交】
         //同步提交：发起提交时应用会阻塞。可以减少手动提交的频率，但是会增加消息重复消费的概率
         //异步提交：如果服务器返回提交失败，异步提交不会进行重试。同步提交会进行重试直到成功或者最后抛出异常给应用。异步提交没有重试是因为如果同时存在多个异步提交，重试可能会导致位移覆盖。
-        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(configs);
         //订阅topic
