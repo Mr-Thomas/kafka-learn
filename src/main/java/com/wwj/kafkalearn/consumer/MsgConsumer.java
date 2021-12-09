@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @author ：Administrator
  * @description：TODO
  * @date ：2021/12/9 15:24
+ * 监听消息
  */
 @Component
 @Slf4j
@@ -16,6 +17,6 @@ public class MsgConsumer {
 
     @KafkaListener(topics = "topic", groupId = "kafka-demo-topic-group")
     public void onMessage(ConsumerRecord<?, ?> record) {
-        log.info("topic:{},partition:{},offset:{},value:{}", record.topic(), record.partition(), record.offset(), record.value());
+        log.info("MsgConsumer topic:{},partition:{},offset:{},value:{}", record.topic(), record.partition(), record.offset(), record.value());
     }
 }

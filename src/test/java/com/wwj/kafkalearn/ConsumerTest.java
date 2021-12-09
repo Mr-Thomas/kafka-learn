@@ -28,8 +28,7 @@ public class ConsumerTest {
             //1秒监听一次
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofMillis(1000));
             records.forEach(o -> {
-                String msg = o.value();
-                log.info("msg:{}", msg);
+                log.info("ConsumerTest msg:{},topic:{},offset:{}", o.value(), o.topic(), o.offset());
             });
         }
     }
